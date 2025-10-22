@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Directory Manifest Template",
+  "description": "Template for _manifest.json files in project directories and archives",
+
+  "project": "project-identifier",
+  "created": "YYYY-MM-DDTHH:MM:SSZ",
+  "status": "draft | active | completed | archived",
+  "description": "Brief description of what this directory contains",
+
+  "summary": {
+    "total_files": 0,
+    "total_size_kb": 0,
+    "total_tokens": 0,
+    "file_types": {
+      "research": 0,
+      "compiled": 0,
+      "skill": 0,
+      "code": 0,
+      "documentation": 0
+    }
+  },
+
+  "agents_used": [
+    {
+      "type": "researcher",
+      "count": 0,
+      "tasks": ["task description 1", "task description 2"]
+    }
+  ],
+
+  "files": [
+    {
+      "name": "filename.md",
+      "path": "relative/path/to/file.md",
+      "type": "research | compiled | skill | code | documentation",
+      "status": "draft | active | completed | archived",
+      "size_kb": 0,
+      "sequence": 1,
+      "created": "YYYY-MM-DDTHH:MM:SSZ",
+      "agent": "researcher | coder | reviewer | tester",
+      "estimated_tokens": 0,
+      "tags": ["tag1", "tag2"],
+      "summary": "One-line description",
+      "relationships": {
+        "parent": null,
+        "children": [],
+        "derived_from": []
+      }
+    }
+  ],
+
+  "outputs_generated": [
+    {
+      "path": "path/to/output/file",
+      "description": "What was generated from this research/work",
+      "type": "skill | documentation | code",
+      "created": "YYYY-MM-DDTHH:MM:SSZ"
+    }
+  ],
+
+  "provenance": {
+    "purpose": "Why this work was done",
+    "methodology": "How it was approached (e.g., 'Multi-agent parallel research swarm')",
+    "key_findings": ["Finding 1", "Finding 2", "Finding 3"],
+    "compiled_into": ["path/to/final/output1", "path/to/final/output2"]
+  },
+
+  "metadata": {
+    "repository": "owner/repo-name",
+    "branch": "branch-name",
+    "commit": "git-commit-hash",
+    "generated_by": "Repository Organizer skill v1.0.0",
+    "generated_at": "YYYY-MM-DDTHH:MM:SSZ"
+  }
+}
