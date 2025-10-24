@@ -1,0 +1,225 @@
+# File-Level Metadata Template (YAML Frontmatter)
+# For use with Repo Curator skill - automatic post-task curation
+
+---
+# REQUIRED FIELDS (Post-Task Hook)
+task_id: "task-12345"                      # From post-task hook - unique task identifier
+completion_date: "2025-10-22"              # YYYY-MM-DD when task completed
+created: "2025-10-22T19:15:00Z"            # ISO 8601 timestamp
+type: research                              # research | compiled | skill | code | documentation | config
+status: completed                           # draft | active | completed | archived
+project: "project-identifier"              # Links related files (e.g., "webinar-funnel-strategy")
+
+# RECOMMENDED FIELDS (Auto-Inferred or Optional)
+modified: "2025-10-22T20:30:00Z"           # ISO 8601 timestamp of last modification
+phase: discovery                            # discovery | strategy | implementation | testing | deployment
+sequence: 1                                 # Numeric order in series (1, 2, 3...)
+
+# PROVENANCE TRACKING
+parent: null                                # Path to parent file (or null if original)
+children: []                                # Array of paths to files derived from this one
+derived_from: []                            # Array of source files used to create this
+
+# AGENT CONTEXT
+agent_type: researcher                      # researcher | coder | reviewer | tester | coordinator | analyst
+agent_task: "Brief description of task"    # What the agent was asked to do
+estimated_tokens: 41000                     # Approximate token count (for cost tracking)
+
+# DESCRIPTIVE METADATA
+tags: [tag1, tag2, tag3]                   # Searchable keywords
+author: "Task Agent (researcher)"          # Human or agent identifier
+summary: "One-line description"            # Brief description for quick scanning
+
+---
+
+# Your Markdown Content Below
+
+The YAML frontmatter above will be automatically added by Repo Curator when
+tasks complete via post-task hook.
+
+## Field Descriptions
+
+### REQUIRED FIELDS (Always Added)
+
+**task_id** (string, REQUIRED)
+- Unique identifier from post-task hook
+- Format: "task-12345" or similar
+- Used to track which task generated this file
+- Example: "task-webinar-001"
+
+**completion_date** (string, REQUIRED)
+- Date when task completed
+- Format: YYYY-MM-DD
+- Used for archive directory naming
+- Example: "2025-10-22"
+
+**created** (string, REQUIRED)
+- Timestamp when file was created
+- Format: ISO 8601 (YYYY-MM-DDTHH:MM:SSZ)
+- Used for provenance tracking
+- Example: "2025-10-22T19:15:00Z"
+
+**type** (enum, REQUIRED)
+- File classification category
+- Options: research | compiled | skill | code | documentation | config
+- Used to determine archival behavior
+- Example: "research"
+
+**status** (enum, REQUIRED)
+- Lifecycle status of file
+- Options: draft | active | completed | archived
+- Changes from "completed" to "archived" when moved to archives
+- Example: "completed"
+
+**project** (string, REQUIRED)
+- Project identifier linking related files
+- Auto-inferred from directory name or content
+- Used for archive organization
+- Example: "webinar-funnel-strategy"
+
+### RECOMMENDED FIELDS (Often Auto-Inferred)
+
+**modified** (string, optional)
+- Last modification timestamp
+- Format: ISO 8601
+- Updated when file changes
+- Example: "2025-10-22T20:30:00Z"
+
+**phase** (enum, optional)
+- Development phase when file created
+- Options: discovery | strategy | implementation | testing | deployment
+- Helps organize workflow stages
+- Example: "discovery"
+
+**sequence** (number, optional)
+- Numeric order within project
+- Used for sorting and file naming (01-, 02-, 03-)
+- Auto-assigned based on timestamps
+- Example: 1
+
+### PROVENANCE FIELDS
+
+**parent** (string or null, optional)
+- Path to parent file this was derived from
+- Use null if this is original work
+- Example: "sandbox/research/original-analysis.md" or null
+
+**children** (array, optional)
+- Paths to files derived from this one
+- Empty array [] if no children yet
+- Example: ["sandbox/skills/webinar-funnel-builder/README.md"]
+
+**derived_from** (array, optional)
+- List of source files used to create this (for compiled outputs)
+- Empty array [] if original research
+- Example: ["source1.md", "source2.md", "source3.md"]
+
+### AGENT CONTEXT FIELDS
+
+**agent_type** (enum, optional)
+- Type of AI agent that created/modified file
+- Options: researcher | coder | reviewer | tester | coordinator | analyst
+- Auto-inferred from file content analysis
+- Example: "researcher"
+
+**agent_task** (string, optional)
+- Description of what the agent was asked to do
+- Brief summary of task instructions
+- Example: "Analyze r/aiagents subreddit for pain points"
+
+**estimated_tokens** (number, optional)
+- Approximate token count for this file
+- Estimated from file size (1 token ≈ 4 characters)
+- Used for cost tracking
+- Example: 41000
+
+### DESCRIPTIVE FIELDS
+
+**tags** (array, optional)
+- Searchable keywords
+- Used for finding related files
+- Example: [research, market-analysis, reddit, ai-agents]
+
+**author** (string, optional)
+- Human or agent identifier
+- Format: "Name" or "Task Agent (type)"
+- Example: "Task Agent (researcher)"
+
+**summary** (string, optional)
+- One-line description of file contents
+- Auto-generated from first paragraph or heading
+- Example: "Analysis of r/aiagents community sentiment and pain points"
+
+## Usage Examples
+
+### Minimal Required Metadata
+```yaml
+---
+task_id: "task-12345"
+completion_date: "2025-10-22"
+created: "2025-10-22T19:15:00Z"
+type: research
+status: completed
+project: "webinar-funnel-strategy"
+---
+```
+
+### Complete Metadata Example
+```yaml
+---
+task_id: "task-webinar-001"
+completion_date: "2025-10-22"
+created: "2025-10-22T19:15:00Z"
+modified: "2025-10-22T20:30:00Z"
+type: research
+status: archived
+project: "webinar-funnel-strategy"
+phase: discovery
+sequence: 1
+parent: null
+children: ["sandbox/skills/webinar-funnel-builder/README.md"]
+derived_from: []
+agent_type: researcher
+agent_task: "Analyze r/aiagents subreddit for pain points and opportunities"
+estimated_tokens: 41000
+tags: [research, reddit, market-analysis, ai-agents, community-sentiment]
+author: "Task Agent (researcher)"
+summary: "Comprehensive analysis of r/aiagents community discussions, pain points, and language patterns"
+---
+```
+
+### Compiled Output Example
+```yaml
+---
+task_id: "task-webinar-001"
+completion_date: "2025-10-22"
+created: "2025-10-22T20:45:00Z"
+type: compiled
+status: completed
+project: "webinar-funnel-strategy"
+phase: strategy
+sequence: 10
+parent: null
+children: []
+derived_from: [
+  "sandbox/archives/2025-10-22-webinar-funnel/research/01-reddit-analysis.md",
+  "sandbox/archives/2025-10-22-webinar-funnel/research/02-competitor-analysis.md",
+  "sandbox/archives/2025-10-22-webinar-funnel/research/03-income-opportunities.md"
+]
+agent_type: coordinator
+agent_task: "Synthesize research into comprehensive webinar funnel strategy"
+estimated_tokens: 125000
+tags: [compiled, strategy, webinar, funnel, synthesized]
+author: "Webinar Funnel Strategist"
+summary: "Complete webinar funnel strategy compiled from 9 research reports"
+---
+```
+
+## Notes
+
+- This template is automatically applied by Repo Curator skill
+- Required fields are populated from post-task hook context
+- Optional fields are auto-inferred when possible
+- Remove fields that don't apply to your use case
+- YAML frontmatter must come BEFORE any markdown content
+- Use --- to delimit frontmatter (opening and closing)
